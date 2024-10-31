@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLAMES Relationship Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            font-size: 1.5em;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FLAMES Relationship Finder</h1>
+        <input type="text" id="name1" placeholder="Enter first name">
+        <input type="text" id="name2" placeholder="Enter second name">
+        <button onclick="findRelationship()">Find Relationship</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function removeCommonLetters(name1, name2) {
+            for (let i = 0; i < name1.length; i++) {
+                if (name2.includes(name1[i])) {
+                    name2 = name2.replace(name1[i], '');
+                    name1 = name1.replace(name1[i], '');
+                    i--;
+                }
+            }
+            return name1.length + name2.length;
+        }
+
+        function findRelationship() {
+            const name1 = document.getElementById("name1").value.toLowerCase().replace(/\s+/g, '');
+            const name2 = document.getElementById("name2").value.toLowerCase().replace(/\s+/g, '');
+
+            if (!name1 || !name2) {
+                document.getElementById("result").innerText = "Please enter both names.";
+                return;
+            }
+
+            let count = removeCommonLetters(name1, name2);
+
+            const flames = ['Friends', 'Lovers', 'Affectionate', 'Marriage', 'Enemies', 'Siblings'];
+            let index = 0;
+
+            while (flames.length > 1) {
+                index = (index + count - 1) % flames.length;
+                flames.splice(index, 1);
+            }
+
+            document.getElementById("result").innerText = Relationship: ${flames[0]};
+        }
+    </script>
+</body>
+</html>
